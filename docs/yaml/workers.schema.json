@@ -33,10 +33,6 @@
       "description":"Avatar URL",
       "type":"url"
     },
-    "role":{
-      "description":"Role of the user",
-      "type":"string"
-    },
     "workerid":{
       "description":"ID to identify worker",
       "type":"integer",
