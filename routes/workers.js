@@ -3,7 +3,7 @@ const bodyParser = require('koa-bodyparser')
 
 const model = require('../models/workers.js')
 const auth = require('../controllers/auth.js')
-const { userValidation } = require('../controllers/validation');
+const { workerValidation } = require('../controllers/validation');
 const can = require('../permissions/workers.js')
 const checkWorkerId = require('../tools/checkWorkerId.js')
 
@@ -58,7 +58,7 @@ const updateWorker = async (ctx) => {
 
 router.get('/', auth, getWorkerAll)
 router.get('/:id([0-9]{1,})', auth, getWorkerById)
-router.post('/', bodyParser(), checkWorkerId, userValidation, createWorker)
-router.put('/:id([0-9]{1,})', bodyParser(), auth, userValidation, updateWorker)
+router.post('/', bodyParser(), checkWorkerId, workerValidation, createWorker)
+router.put('/:id([0-9]{1,})', bodyParser(), auth, workerValidation, updateWorker)
 
 module.exports = router

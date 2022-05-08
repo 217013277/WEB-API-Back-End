@@ -32,6 +32,11 @@ paths:
         - Users
       description:
         Create new user.
+      responses:
+        '200':
+          description: Create a new user.
+        '403':
+          description: Not authorization to create user.
 paths:
   /users/(id):
     get: tags:

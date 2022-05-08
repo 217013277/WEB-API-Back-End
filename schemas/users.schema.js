@@ -36,11 +36,6 @@ exports.userSchema = {
     "role": {
       "description": "Role of the user",
       "type": "string"
-    },
-    "workerid": {
-      "description": "ID to identify worker",
-      "type": "integer",
-      "minimum": 0
     }
   },
   "required": ["username", "email", "password"]
