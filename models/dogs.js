@@ -16,9 +16,9 @@ exports.getDogAll = async () => {
   *returns json
   */
 exports.getDogByID = async (id) => {
-  const userId = [id]
+  const valueId = [id]
   const query = 'SELECT * FROM dogs WHERE id = ?'
-  let data = await db.run_query(query, userId)
+  let data = await db.run_query(query, valueId)
   return data
 }
 
@@ -28,9 +28,9 @@ exports.getDogByID = async (id) => {
   *returns json
   */
 exports.getDogByName = async (name) => {
-  const values = [name]
+  const valuesName = [name]
   const query = 'SELECT * FROM dogs WHERE name = ?'
-  const data = await db.run_query(query, values)
+  const data = await db.run_query(query, valuesName)
   return data
 }
 
@@ -38,10 +38,10 @@ exports.getDogByName = async (name) => {
   *createDog
   *returns json
   */
-exports.createDog = async (userDetails) => {
-  let keys = Object.keys(userDetails)
+exports.createDog = async (body) => {
+  let keys = Object.keys(body)
   keys = keys.join(',')
-  const values = Object.values(userDetails)
+  const values = Object.values(body)
   let parm = ''
   for (let i = 0; i < values.length; i++) parm += '?,'
   parm = parm.slice(0, -1)
@@ -52,15 +52,15 @@ exports.createDog = async (userDetails) => {
 
 /**
   *updateDog
-  *@param id, dogDetails
+  *@param id, body
   *returns json
   */
-exports.updateDog = async (id, dogDetails) => {
-  const dogId = [id]
-  let keys = Object.keys(dogDetails)
+exports.updateDog = async (id, body) => {
+  const valueId = [id]
+  let keys = Object.keys(body)
   keys = keys.join(' = ?,')
-  const values = Object.values(dogDetails)
-  const query = `UPDATE dogs SET ${keys} = ? WHERE id = ${dogId} RETURNING *`
+  const values = Object.values(body)
+  const query = `UPDATE dogs SET ${keys} = ? WHERE id = ${valueId} RETURNING *`
   const data = await db.run_query(query, values)
   return data
 }
@@ -71,8 +71,8 @@ exports.updateDog = async (id, dogDetails) => {
   *returns promise
   */
 exports.deleteDog = async (id) => {
-  const dogId = [id]
-  const query = `DELETE FROM dogs WHERE id = ${dogId}`
+  const valueId = [id]
+  const query = `DELETE FROM dogs WHERE id = ${valueId}`
   try {
     await db.run_query(query)
     return { status: 202 }

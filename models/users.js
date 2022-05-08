@@ -38,10 +38,10 @@ exports.getUserByUsername = async (username) => {
   *createUser
   *returns json
   */
-exports.createUser = async (userDetails) => {
-  let keys = Object.keys(userDetails)
+exports.createUser = async (body) => {
+  let keys = Object.keys(body)
   keys = keys.join(',')
-  const values = Object.values(userDetails)
+  const values = Object.values(body)
   let parm = ''
   for (let i = 0; i < values.length; i++) parm += '?,'
   parm = parm.slice(0, -1)
@@ -52,15 +52,15 @@ exports.createUser = async (userDetails) => {
 
 /**
   *updateUser
-  *@param id, userDetails
+  *@param id, body
   *returns json
   */
-exports.updateUser = async (id, userDetails) => {
-  const userId = [id]
-  let keys = Object.keys(userDetails)
+exports.updateUser = async (id, body) => {
+  const valueId = [id]
+  let keys = Object.keys(body)
   keys = keys.join(' = ?,')
-  const values = Object.values(userDetails)
-  const query = `UPDATE users SET ${keys} = ? WHERE id = ${userId} RETURNING *`
+  const values = Object.values(body)
+  const query = `UPDATE users SET ${keys} = ? WHERE id = ${valueId} RETURNING *`
   const data = await db.run_query(query, values)
   return data
 }
@@ -78,8 +78,8 @@ exports.login = async(body) => {
   *returns json
   */
 exports.deleteUser = async (id) => {
-  const userId = [id]
-  const query = `Delete from users WHERE id = ${userId}`
+  const valueId = [id]
+  const query = `Delete from users WHERE id = ${valueId}`
   try {
     await db.run_query(query)
     return { status: 201 }

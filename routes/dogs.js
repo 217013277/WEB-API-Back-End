@@ -4,6 +4,7 @@ const bodyParser = require('koa-bodyparser')
 const model = require('../models/dogs.js')
 const auth = require('../controllers/auth.js')
 const can = require('../permissions/dogs.js')
+const { dogValidation } = require('../controllers/validation');
 
 const router = Router({ prefix: '/api/v1/dogs' })
 
@@ -33,6 +34,7 @@ const createDog = async (ctx) => {
     const result = await model.createDog(body)
     if (result.length) {
       ctx.body = result[0]
+      console.log('Create dog detail successfully')
     }
   }
 }
@@ -47,7 +49,8 @@ const updateDog = async (ctx) => {
     const body = ctx.request.body
     const result = await model.updateDog(id, body)
     if (result.length) {
-      ctx.body = result
+      ctx.body = result[0]
+      console.log('Update dog detail successfully')
     } 
   }
 }
@@ -70,8 +73,8 @@ const deleteDog = async (ctx) => {
 
 router.get('/', getDogAll)
 router.get('/:id([0-9]{1,})', getDogById)
-router.post('/', bodyParser(), auth, createDog)
-router.put('/:id([0-9]{1,})', bodyParser(), auth, updateDog)
+router.post('/', bodyParser(), auth, dogValidation, createDog)
+router.put('/:id([0-9]{1,})', bodyParser(), auth, dogValidation, updateDog)
 router.delete('/:id([0-9]{1,})', auth, deleteDog)
 
 module.exports = router
