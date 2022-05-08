@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Dog website API
+  description: API for dog website to show dog details.
+  contact:
+    name: [Yu Hong Yiu]
+    email: [217013277@stu.vtc.edu.hk]
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: 'https://[https://bloglab.217013277.repl.co/api/v1/] '
+    description: Development server
+tags:
+  - name: Users
+    description: API endpoints for user management.
+  - name: Dogs
+    description: Access and perform CRUD operations on dogs entries.
+paths:
+  /users/:
+    get: tags:
+        - Users
+      description:
+        Get all users.
+      responses:
+        '200':
+          description: View of an all users record.
+        '403':
+          description: Not authorization to get all users.
+    post: tags:
+        - Users
+      description:
+        Create new user.
+paths:
+  /users/(id):
+    get: tags:
+        - Users
+      description:
+        Get user by ID.
+    put:
+      tags:
+        - Users
+      description:
+        Update user by ID.
+    delete:
+      tags:
+        - Users
+      description:
+        Delete user by ID.
+paths:
+  /users/login:
+    post: tags:
+        - Users
+      description:
+        User login.
