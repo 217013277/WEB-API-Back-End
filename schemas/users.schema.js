@@ -43,5 +43,5 @@ exports.userSchema = {
       "minimum": 0
     }
   },
-  "required": ["username", "email"]
+  "required": ["username", "email", "password"]
 }
