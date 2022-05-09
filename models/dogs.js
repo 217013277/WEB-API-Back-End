@@ -74,9 +74,9 @@ exports.deleteDog = async (id) => {
   const valueId = [id]
   const query = `DELETE FROM dogs WHERE id = ${valueId}`
   try {
-    await db.run_query(query)
-    return { status: 202 }
+    return await db.run_query(query)
   } catch (error) {
+    console.log(error)
     return error
   }
 }

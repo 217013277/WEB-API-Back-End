@@ -3,7 +3,7 @@ const AccessControl = require('role-acl')
 const ac = new AccessControl()
 
 ac.grant('user').condition({ Fn: 'EQUALS', args: { 'requester': '$.owner' } }).execute('read').on('user', ['*', '!password', '!passwordSalt', '!workerid'])
-ac.grant('user').condition({ Fn: 'EQUALS', args: { 'requester': '$.owner' } }).execute('update').on('user', ['firstname', 'lastname', 'about', 'password', 'email', 'avatarURL', '!workerid'])
+ac.grant('user').condition({ Fn: 'EQUALS', args: { 'requester': '$.owner' } }).execute('update').on('user', ['firstname', 'lastname', 'about', 'password', 'email', 'avatarURL', '!role', '!workerid'])
 
 // ac.grant('admin').extend('user')
 ac.grant('admin').execute('read').on('user')

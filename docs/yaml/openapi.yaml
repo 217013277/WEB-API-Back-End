@@ -13,11 +13,100 @@ servers:
   - url: 'https://https://web-api-assignment-back-end.217013277.repl.co/api/v1/'
     description: Development server
 tags:
-  - name: Users
-    description: API endpoints for user management.
   - name: Dogs
     description: Access and perform CRUD operations on dogs entries.
+  - name: Users
+    description: API endpoints for user management.
+  - name: Workers
+    description: API endpoints for worker management.
+
 paths:
+  /dogs/:
+    get: 
+      tags:
+        - Dogs
+      description:
+        Get all Dogs.
+      responses:
+        '200':
+          description: View of an all dogs record.
+    post: 
+      tags:
+        - Dogs
+      description:
+        Create new dog.
+      requestBody:
+        description: All new dog data
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: ./dogs.json#/definitions/dogs
+      responses:
+        '200':
+          description: Create a new dog.
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: Cannot authorize the requester.
+        '403':
+          description: No permission to create dog.
+  /dogs/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Numeric id of the dog
+    get: 
+      tags:
+        - Dogs
+      description:
+        Get dogs by ID.
+      responses:
+        '200':
+          description: View of a dog record.
+        '404':
+          description: Cannot find the dog.
+    put:
+      tags:
+        - Dogs
+      description:
+        Update dog by ID.
+      requestBody:
+        description: All new dog data
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: ./dogs.json#/definitions/dogs
+      responses:
+        '202':
+          description: Updated a dog record.
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to update the dog.
+        '404':
+          description: Cannot find the dog.
+    delete:
+      tags:
+        - Dogs
+      description:
+        Delete dog by ID.
+      responses:
+        '204':
+          description: Deleted a dog record.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: Not authorization to delete the dog.
+        '404':
+          description: Cannot find the dog.
+
   /users/:
     get: 
       tags:
@@ -67,7 +156,7 @@ paths:
         Get user by ID.
       responses:
         '200':
-          description: View of an a user record.
+          description: View of a user record.
         '401':
           description: cannot authorize the requester.
         '403':
@@ -87,8 +176,8 @@ paths:
             schema:
               $ref: ./users.json#/definitions/users
       responses:
-        '200':
-          description: View of an a user record.
+        '202':
+          description: Updated a user record.
         '400':
           description: Data or syntax error.
         '401':
@@ -103,8 +192,8 @@ paths:
       description:
         Delete user by ID.
       responses:
-        '200':
-          description: View of an a user record.
+        '204':
+          description: Deleted a user record.
         '401':
           description: cannot authorize the requester.
         '403':
@@ -121,5 +210,98 @@ paths:
         '201':
           description: Login successfully.
         '401':
-          description: cannot authorize the requester. m.   v 
-      
+          description: cannot authorize the requester.
+  
+  /workers/:
+    get: 
+      tags:
+        - Workers
+      description:
+        Get all workers.
+      responses:
+        '200':
+          description: View of an all workers record.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to get all workers.
+    post: 
+      tags:
+        - Workers
+      description:
+        Create new worker.
+      requestBody:
+        description: All new worker data
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: ./workers.json#/definitions/workers
+      responses:
+        '200':
+          description: Create a new worker.
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: Cannot authorize the requester.
+        '403':
+          description: No permission to create worker.
+  /workers/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Numeric id of the worker
+    get: 
+      tags:
+        - Workers
+      description:
+        Get worker by ID.
+      responses:
+        '200':
+          description: View of a worker record.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to get the worker.
+        '404':
+          description: Cannot find the worker.
+    put:
+      tags:
+        - Workers
+      description:
+        Update worker by ID.
+      requestBody:
+        description: All new worker data
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: ./workers.json#/definitions/workers
+      responses:
+        '202':
+          description: Updated a worker record.
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to update the worker.
+        '404':
+          description: Cannot find the worker.
+    delete:
+      tags:
+        - Workers
+      description:
+        Delete worker by ID.
+      responses:
+        '204':
+          description: Deleted a worker record.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: Not authorization to delete the worker.
+        '404':
+          description: Cannot find the worker.

@@ -4,18 +4,22 @@ module.exports = {
   "title": "Users",
   "description": "User of the website",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "firstname": {
       "description": "First name of the user",
-      "type": "string"
+      "type": "string",
+      "maxLength": 32
     },
     "lastname": {
       "description": "Last name of the user",
-      "type": "string"
+      "type": "string",
+      "maxLength": 32
     },
     "username": {
       "description": "Username of the user for login",
-      "type": "string"
+      "type": "string",
+      "maxLength": 32
     },
     "about": {
       "description": "Description of the user",
@@ -23,20 +27,24 @@ module.exports = {
     },
     "password": {
       "description": "Password of the user",
-      "type": "string"
+      "type": "string",
+      "maxLength": 32
     },
     "email": {
       "description": "E-mail of the user",
-      "type": "email"
+      "type": "email",
+      "maxLength": 64
     },
     "avatarurl": {
       "description": "Avatar URL",
-      "type": "url"
+      "type": "url",
+      "maxLength": 128
     },
     "workerid": {
       "description": "ID to identify worker",
       "type": "integer",
-      "minimum": 0
+      "minimum": 0,
+      "maximum": 9999
     }
   },
   "required": ["username", "email", "password"]

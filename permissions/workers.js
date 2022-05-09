@@ -4,7 +4,7 @@ const ac = new AccessControl()
 
 ac.grant('worker').condition({ Fn: 'EQUALS', args: { 'requester': '$.owner' } }).execute('read').on('worker', ['*', '!password', '!passwordSalt'])
 ac.grant('worker').condition({ Fn: 'EQUALS', args: { 'requester': '$.owner' } }).execute('create').on('worker')
-ac.grant('worker').condition({ Fn: 'EQUALS', args: { 'requester': '$.owner' } }).execute('update').on('worker', ['about', 'password', 'avatarURL'])
+ac.grant('worker').condition({ Fn: 'EQUALS', args: { 'requester': '$.owner' } }).execute('update').on('worker', ['*', '!workerid', '!passwordSalt'])
 
 ac.grant('admin').execute('read').on('workers')
 ac.grant('admin').execute('read').on('worker')

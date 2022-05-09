@@ -9,65 +9,70 @@ const { dogValidation } = require('../controllers/validation');
 const router = Router({ prefix: '/api/v1/dogs' })
 
 const getDogAll = async (ctx) => {
-  const result = await model.getDogAll()
-  if (result.length) {
-    ctx.body = result
+  try {
+    const result = await model.getDogAll()
+    if (result.length) {
+      ctx.status = 200
+      ctx.body = result
+    } 
+    } catch (error) {
+      console.log(error)
   }
 }
 
 const getDogById = async (ctx) => {
   const id = ctx.params.id
-  const result = await model.getDogByID(id)
-  if (result.length) {
-    ctx.body = result[0]
+  try {
+    const result = await model.getDogByID(id)
+    if (!result.length) return ctx.status = 404
+      ctx.status = 200
+      ctx.body = result[0]
+    } catch (error) {
+      console.log(error)
   }
 }
 
 const createDog = async (ctx) => {
   const permission = can.updateDog(ctx.state.user)
-  if (!permission.granted) {
-    console.log(`Request user: ${ctx.state.user.username} , id: ${ctx.state.user.id} is not authorized to create`)
-    ctx.status = 403
-    ctx.body = { message: 'You have no permission to create' }
-  } else {
+  if (!permission.granted) return ctx.status = 403
+  try {
     const body = ctx.request.body
     const result = await model.createDog(body)
-    if (result.length) {
-      ctx.body = result[0]
-      console.log('Create dog detail successfully')
-    }
+    if (!result.length) return error
+    ctx.status = 201
+    ctx.body = result[0]
+  } catch (error) {
+    console.log(error)
   }
 }
 
 const updateDog = async (ctx) => {
   const id = ctx.params.id
   const permission = can.updateDog(ctx.state.user)
-  if (!permission.granted) {
-    console.log(`Request user: ${ctx.state.user.username} , id: ${ctx.state.user.id} is not authorized to update dog information`)
-    ctx.status = 403
-  } else {
+  if (!permission.granted) ctx.status = 403
+  try {
     const body = ctx.request.body
     const result = await model.updateDog(id, body)
-    if (result.length) {
-      ctx.body = result[0]
-      console.log('Update dog detail successfully')
-    } 
+    if (result.length) throw error
+    ctx.status= 200
+    ctx.body = result[0]
+  } catch (error) {
+    console.log(error)
   }
 }
 
 const deleteDog = async (ctx) => {
   console.log('Processing deleteDog Route')
   const permission = can.deleteDog(ctx.state.user)
-  if (!permission.granted) {
-    console.log(`Request user: ${ctx.state.user.username} , id: ${ctx.state.user.id} is not authorized to delete any dog information`)
-    ctx.status = 403
-  } else {
+  if (!permission.granted) return ctx.status = 403
+  try {
     const id = ctx.params.id
     const result = await model.deleteDog(id)
-    if (result) {
-      ctx.status = result.status
-      ctx.body = { id: parseInt(id) }
-    }
+    if (!result) throw error
+    console.log(result)
+    ctx.status = 204
+  } catch (error) {
+    console.log(error)
   }
 }
 

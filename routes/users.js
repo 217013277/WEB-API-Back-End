@@ -10,51 +10,66 @@ const router = Router({ prefix: '/api/v1/users' });
 
 const getUserAll = async (ctx) => {
   const permission = can.readUserAll(ctx.state.user)
-  if (!permission.granted) {
-    ctx.status = 403
-  } else {
-    const result = await model.getUserAll()
+  if (!permission.granted) return ctx.status = 403
+  try {
+    const result = await model.getUserAll('user')
     if (result.length) {
+      ctx.status = 200
       ctx.body = result
-    }
+    } 
+  } catch (error) {
+    console.log(error)
   }
 }
 
 const getUserById = async (ctx) => {
   const id = ctx.params.id
-  const permission = can.readUser(ctx.state.user, parseInt(id))
-  if (!permission.granted) {
-    ctx.status = 403
-  } else {
-    const result = await model.getUserByID(id)
-    if (result.length) {
-      ctx.body = result
-    }
+  const permission = can.readWorker(ctx.state.user, parseInt(id))
+  if (!permission.granted) return ctx.status = 403
+  try {
+    const result = await userModel.getUserByID(id, 'user')
+    if (!result.length) return ctx.status = 404
+    ctx.status = 200
+    ctx.body = result[0]
+    console.log('find user successfully')
+  } catch (error) {
+    console.log(error)
   }
 }
 
 const createUser = async (ctx) => {
   const body = ctx.request.body
-  const result = await model.createUser(body)
-  if (result.length) {
+  try {
+    const result = await userModel.createUser(body, 'user')
+    if (!result.length) throw error
     ctx.status = 201
     ctx.body = result[0]
     console.log('Create user successfully')
+  } catch(error) {
+    console.log(error)
   }
 }
 
 const updateUser = async (ctx) => {
   const id = ctx.params.id
-  const permission = can.updateUser(ctx.state.user, parseInt(id))
-  if (!permission.granted) {
-    ctx.status = 403
-  } else {
+  const permission = can.updateWorker(ctx.state.user, parseInt(id))
+  if (!permission.granted) { 
+    console.log('Fail to check permission')
+    return ctx.status = 403
+  }
+  console.log('Success to check permission')
+  try{
+    const user = await userModel.getUserByID(id, 'user')
+    if (!user.length) return ctx.status = 404
+
     const body = ctx.request.body
-    const result = await model.updateUser(id, body)
-    if (result.length) {
-      ctx.body = result[0]
-      console.log('Update user successfully')
-    }
+    const result = await userModel.updateUser(id, body)
+    if (!result.length) throw error
+    ctx.body = result[0]
+    console.log('Update user detail successfully')
+    return
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -62,20 +77,26 @@ const deleteUserById = async (ctx) => {
   const id = ctx.params.id
   const permission = can.deleteUser(ctx.state.user, parseInt(id))
   if (!permission.granted) return ctx.status = 403
-  
-  const user = await model.getUserByID(id)
-  if (!user.length) return ctx.status = 404
-  
-  const result = await model.deleteUser(id)
-  if (result) {
-    ctx.status = 200
+
+  try {
+    const user = await model.getUserByID(id)
+    if (!user.length) return ctx.status = 404
+    const result = await model.deleteUser(id)
+    if (!result) throw error
+    return ctx.status = 204
+  } catch (error) {
+    console.log(error)
   }
 }
 
 const login = async (ctx) => {
   console.log('Start login')
-  const body = ctx.state.user
-  let result = { id: body.id, username: body.username, password: body.password, role: body.role }
+  const result = { 
+    id: ctx.state.user.id, 
+    username: ctx.state.user.username, 
+    password: ctx.state.user.password, 
+    role: ctx.state.user.role
+  }
     ctx.status = 201
     ctx.body = result
     console.log('Sent login information, finished login')

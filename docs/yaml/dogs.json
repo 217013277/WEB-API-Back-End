@@ -9,7 +9,8 @@
       "properties":{
         "name":{
           "description":"Dog Name",
-          "type":"string"
+          "type":"string",
+          "maxLength": 32
         },
         "description":{
           "description":"description of the dog",
@@ -17,7 +18,8 @@
         },
         "breed":{
           "description":"breed of the dog",
-          "type":"string"
+          "type":"string",
+          "maxLength": 16
         },
         "birthday":{
           "description":"birth date",
@@ -25,7 +27,8 @@
         },
         "imageURL":{
           "description":"image URL",
-          "type":"url"
+          "type":"url",
+          "maxLength": 128
         },
         "published":{
           "description":"Published",
@@ -34,7 +37,8 @@
         "authorID":{
           "description":"author ID",
           "type":"integer",
-          "minimum":0
+          "minimum": 0,
+          "maximum": 9999
         }
       }
     }

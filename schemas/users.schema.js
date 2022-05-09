@@ -8,15 +8,18 @@ module.exports = {
   "properties": {
     "firstname": {
       "description": "First name of the user",
-      "type": "string"
+      "type": "string",
+      "maxLength": 32
     },
     "lastname": {
       "description": "Last name of the user",
-      "type": "string"
+      "type": "string",
+      "maxLength": 32
     },
     "username": {
       "description": "Username of the user for login",
-      "type": "string"
+      "type": "string",
+      "maxLength": 32
     },
     "about": {
       "description": "Description of the user",
@@ -24,19 +27,18 @@ module.exports = {
     },
     "password": {
       "description": "Password of the user",
-      "type": "string"
+      "type": "string",
+      "maxLength": 32
     },
     "email": {
       "description": "E-mail of the user",
-      "type": "email"
+      "type": "email",
+      "maxLength": 64
     },
     "avatarurl": {
       "description": "Avatar URL",
-      "type": "url"
-    },
-    "role": {
-      "description": "Role of the user",
-      "type": "string"
+      "type": "url",
+      "maxLength": 128
     }
   },
   "required": ["username", "email", "password"]
