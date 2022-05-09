@@ -37,6 +37,7 @@ const createUser = async (ctx) => {
   const body = ctx.request.body
   const result = await model.createUser(body)
   if (result.length) {
+    ctx.status = 201
     ctx.body = result[0]
     console.log('Create user successfully')
   }
@@ -60,14 +61,14 @@ const updateUser = async (ctx) => {
 const deleteUserById = async (ctx) => {
   const id = ctx.params.id
   const permission = can.deleteUser(ctx.state.user, parseInt(id))
-  if (!permission.granted) {
-    ctx.status = 403
-  } else {
-    const result = await model.deleteUser(id)
-    if (result) {
-      ctx.status = result.status
-      ctx.body = { id: parseInt(id) }
-    }
+  if (!permission.granted) return ctx.status = 403
+  
+  const user = await model.getUserByID(id)
+  if (!user.length) return ctx.status = 404
+  
+  const result = await model.deleteUser(id)
+  if (result) {
+    ctx.status = 200
   }
 }
 

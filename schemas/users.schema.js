@@ -1,9 +1,10 @@
-exports.userSchema = {
+module.exports = {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "/user",
   "title": "Users",
   "description": "User of the website",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "firstname": {
       "description": "First name of the user",

@@ -5,19 +5,16 @@ const userSchema = require('../schemas/users.schema.js')
 
 const v = new Validator()
 
+const validationOptions = { throwError: true }
+
 exports.dogValidation = async (ctx, next) => {
   console.log('Start validating dog schema')
-  const validationOptions = {
-    throwError: true,
-    allowUnknowonAttributes: false
-  }
   const body = ctx.request.body
   try {
     v.validate(body, dogSchema, validationOptions)
     console.log('Validate dog schema successfully')
     await next()
   } catch(error) {
-
     if(error instanceof ValidationError) {
       ctx.body = error
       ctx.status = 400
@@ -30,17 +27,12 @@ exports.dogValidation = async (ctx, next) => {
 
 exports.workerValidation = async (ctx, next) => {
   console.log('Start validating worker schema')
-  const validationOptions = {
-    throwError: true,
-    allowUnknowonAttributes: false
-  }
   const body = ctx.request.body
   try {
     v.validate(body, workerSchema, validationOptions)
     console.log('Validate worker schema successfully')
     await next()
   } catch(error) {
-
     if(error instanceof ValidationError) {
       ctx.body = error
       ctx.status = 400
@@ -53,17 +45,13 @@ exports.workerValidation = async (ctx, next) => {
 
 exports.userValidation = async (ctx, next) => {
   console.log('Start validating user schema')
-  const validationOptions = {
-    throwError: true,
-    allowUnknowonAttributes: false
-  }
   const body = ctx.request.body
   try {
     v.validate(body, userSchema, validationOptions)
     console.log('Validate user schema successfully')
     await next()
   } catch(error) {
-
+    console.log(error)
     if(error instanceof ValidationError) {
       ctx.body = error
       ctx.status = 400

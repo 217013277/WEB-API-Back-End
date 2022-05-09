@@ -1,4 +1,4 @@
-exports.dogSchema = {
+module.exports = {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "/dog",
   "title": "Dogs",

@@ -4,13 +4,13 @@ info:
   title: Dog website API
   description: API for dog website to show dog details.
   contact:
-    name: [Yu Hong Yiu]
-    email: [217013277@stu.vtc.edu.hk]
+    name: Yu Hong Yiu
+    email: 217013277@stu.vtc.edu.hk
   license:
     name: Apache 2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-  - url: 'https://[https://bloglab.217013277.repl.co/api/v1/] '
+  - url: 'https://https://web-api-assignment-back-end.217013277.repl.co/api/v1/'
     description: Development server
 tags:
   - name: Users
@@ -19,43 +19,107 @@ tags:
     description: Access and perform CRUD operations on dogs entries.
 paths:
   /users/:
-    get: tags:
+    get: 
+      tags:
         - Users
       description:
         Get all users.
       responses:
         '200':
           description: View of an all users record.
+        '401':
+          description: cannot authorize the requester.
         '403':
-          description: Not authorization to get all users.
-    post: tags:
+          description: No permission to get all users.
+    post: 
+      tags:
         - Users
       description:
         Create new user.
+      requestBody:
+        description: All new user data
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: ./users.json#/definitions/users
       responses:
         '200':
           description: Create a new user.
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: Cannot authorize the requester.
         '403':
-          description: Not authorization to create user.
-paths:
-  /users/(id):
-    get: tags:
+          description: No permission to create user.
+  /users/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Numeric id of the user
+    get: 
+      tags:
         - Users
       description:
         Get user by ID.
+      responses:
+        '200':
+          description: View of an a user record.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to get the user.
+        '404':
+          description: Cannot find the user.
     put:
       tags:
         - Users
       description:
         Update user by ID.
+      requestBody:
+        description: All new user data
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: ./users.json#/definitions/users
+      responses:
+        '200':
+          description: View of an a user record.
+        '400':
+          description: Data or syntax error.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: No permission to update the user.
+        '404':
+          description: Cannot find the user.
     delete:
       tags:
         - Users
       description:
         Delete user by ID.
-paths:
+      responses:
+        '200':
+          description: View of an a user record.
+        '401':
+          description: cannot authorize the requester.
+        '403':
+          description: Not authorization to delete the user.
+        '404':
+          description: Cannot find the user.
   /users/login:
-    post: tags:
+    post: 
+      tags:
         - Users
       description:
         User login.
+      responses:
+        '201':
+          description: Login successfully.
+        '401':
+          description: cannot authorize the requester. m.   v 
+      

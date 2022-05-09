@@ -81,8 +81,7 @@ exports.deleteUser = async (id) => {
   const valueId = [id]
   const query = `Delete from users WHERE id = ${valueId}`
   try {
-    await db.run_query(query)
-    return { status: 201 }
+    return await db.run_query(query)
   } catch (error) {
     return error
   }

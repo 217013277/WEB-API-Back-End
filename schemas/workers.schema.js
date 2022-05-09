@@ -1,4 +1,4 @@
-exports.userSchema = {
+module.exports = {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "/user",
   "title": "Users",
