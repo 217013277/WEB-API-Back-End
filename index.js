@@ -20,4 +20,4 @@ app.use(users.routes())
 app.use(workers.routes())
 app.use(dogs.routes())
 app.use(static({dir:'docs', router:'/doc/'})) 
-//static link: https://WEB-API-Assignment-Back-End.217013277.repl.co/doc/doggapi.html
+//static link: https://web-api-assignment-back-end.217013277.repl.co/doc/dogapi.html

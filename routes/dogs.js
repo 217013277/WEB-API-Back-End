@@ -79,6 +79,11 @@ const deleteDog = async (ctx) => {
   }
   try {
     const id = ctx.params.id
+    const dog = await model.getDogByID(id)
+    if (!dog.length) {
+      ctx.status = 404
+      return
+    }
     const result = await model.deleteDog(id)
     console.log(result)
     ctx.status = 204
