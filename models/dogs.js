@@ -18,7 +18,7 @@ exports.getDogAll = async () => {
 exports.getDogByID = async (id) => {
   const valueId = [id]
   const query = 'SELECT * FROM dogs WHERE id = ?'
-  let data = await db.run_query(query, valueId)
+  const data = await db.run_query(query, valueId)
   return data
 }
 

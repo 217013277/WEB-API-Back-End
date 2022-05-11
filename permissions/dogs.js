@@ -18,4 +18,4 @@ exports.updateDog = (requester) => ac.can(requester.role).execute('update').sync
 
 // deleteDog
 exports.deleteDog = (requester) => ac.can(requester.role).execute('delete')
-.sync().on('dog')
+  .sync().on('dog')

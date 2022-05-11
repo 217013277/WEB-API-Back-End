@@ -1,45 +1,45 @@
 module.exports = {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "/user",
-  "title": "Users",
-  "description": "User of the website",
-  "type": "object",
-  "additionalProperties": false,
-  "properties": {
-    "firstname": {
-      "description": "First name of the user",
-      "type": "string",
-      "maxLength": 32
+  $schema: 'http://json-schema.org/draft-04/schema#',
+  id: '/user',
+  title: 'Users',
+  description: 'User of the website',
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    firstname: {
+      description: 'First name of the user',
+      type: 'string',
+      maxLength: 32
     },
-    "lastname": {
-      "description": "Last name of the user",
-      "type": "string",
-      "maxLength": 32
+    lastname: {
+      description: 'Last name of the user',
+      type: 'string',
+      maxLength: 32
     },
-    "username": {
-      "description": "Username of the user for login",
-      "type": "string",
-      "maxLength": 32
+    username: {
+      description: 'Username of the user for login',
+      type: 'string',
+      maxLength: 32
     },
-    "about": {
-      "description": "Description of the user",
-      "type": "string"
+    about: {
+      description: 'Description of the user',
+      type: 'string'
     },
-    "password": {
-      "description": "Password of the user",
-      "type": "string",
-      "maxLength": 32
+    password: {
+      description: 'Password of the user',
+      type: 'string',
+      maxLength: 32
     },
-    "email": {
-      "description": "E-mail of the user",
-      "type": "email",
-      "maxLength": 64
+    email: {
+      description: 'E-mail of the user',
+      type: 'email',
+      maxLength: 64
     },
-    "avatarurl": {
-      "description": "Avatar URL",
-      "type": "url",
-      "maxLength": 128
+    avatarurl: {
+      description: 'Avatar URL',
+      type: 'url',
+      maxLength: 128
     }
   },
-  "required": ["username", "email", "password"]
+  required: ['username', 'email', 'password']
 }

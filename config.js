@@ -4,5 +4,5 @@ exports.myElephentDBConfig = {
   user: 'ndapwwhx',
   password: 'DprTEP28tiWlCWgSNDzuVYr-4ol3Vn7X',
   database: 'ndapwwhx',
-  connection_limit:100
+  connection_limit: 100
 }

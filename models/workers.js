@@ -34,7 +34,7 @@ exports.getWorkerByID = async (id) => {
   *returns json
   */
 exports.createWorker = async (body) => {
-  body.role = "worker"
+  body.role = 'worker'
   let keys = Object.keys(body)
   keys = keys.join(',')
   const values = Object.values(body)

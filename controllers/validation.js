@@ -1,4 +1,4 @@
-const {Validator, ValidationError} = require('jsonschema')
+const { Validator, ValidationError } = require('jsonschema')
 const dogSchema = require('../schemas/dogs.schema.js')
 const workerSchema = require('../schemas/workers.schema.js')
 const userSchema = require('../schemas/users.schema.js')
@@ -14,8 +14,8 @@ exports.dogValidation = async (ctx, next) => {
     v.validate(body, dogSchema, validationOptions)
     console.log('Validate dog schema successfully')
     await next()
-  } catch(error) {
-    if(error instanceof ValidationError) {
+  } catch (error) {
+    if (error instanceof ValidationError) {
       ctx.body = error
       ctx.status = 400
       console.log('Fail to validate dog schema')
@@ -32,8 +32,8 @@ exports.workerValidation = async (ctx, next) => {
     v.validate(body, workerSchema, validationOptions)
     console.log('Validate worker schema successfully')
     await next()
-  } catch(error) {
-    if(error instanceof ValidationError) {
+  } catch (error) {
+    if (error instanceof ValidationError) {
       ctx.body = error
       ctx.status = 400
       console.log('Fail to validate worker schema')
@@ -50,9 +50,9 @@ exports.userValidation = async (ctx, next) => {
     v.validate(body, userSchema, validationOptions)
     console.log('Validate user schema successfully')
     await next()
-  } catch(error) {
+  } catch (error) {
     console.log(error)
-    if(error instanceof ValidationError) {
+    if (error instanceof ValidationError) {
       ctx.body = error
       ctx.status = 400
       console.log('Fail to validate user schema')
