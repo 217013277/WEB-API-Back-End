@@ -242,8 +242,6 @@ paths:
           description: Create a new worker.
         '400':
           description: Data or syntax error.
-        '401':
-          description: Cannot authorize the requester.
         '403':
           description: No permission to create worker.
   /workers/{id}:

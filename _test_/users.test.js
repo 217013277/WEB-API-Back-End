@@ -1,31 +1,32 @@
 const request = require('supertest')
 const app = require('./app.test.js')
 
-// command 'jest workers.test.js' in shell to run test
+// command 'jest users.test.js' in shell to run test
 
 let id = 0
 
 const admin = { username: "alice", password: "qwert123" }
 const user = { username: "bob", password: "qwert123" }
+const anotherUser = { username: "colin", password: "123123" }
 const worker = { username: "yuyu", password: "123123" }
 const wrongLogin = { username: "wrong123123", password: "wrong-pwdasd" }
-const newUser = { username: "newworker", password: "123123" }
-const editUser = { username: "editworker", password: "234234" }
+const newUser = { username: "newuser", password: "123123" }
+const editUser = { username: "edituser", password: "234234" }
 
 
 const getExpected = {
-  "id": 4,
-  "firstname": "yuyu",
-  "lastname": "yuyu",
-  "username": "yuyu",
-  "about": "password: 123123",
-  "dateregistered": "2022-04-22T08:41:26.785Z",
-  "password": "$2b$10$jcjIWpt7G//S2QezKsW7/u7LRcbU.VWiUYPcQ9W5TRGXDKJKAxbfi",
+  "id": 2,
+  "firstname": "bob",
+  "lastname": "bob",
+  "username": "bob",
+  "about": "password: qwert123",
+  "dateregistered": "2022-03-21T15:18:26.438Z",
+  "password": "$2b$10$w.zRxKSbI7hLcqXl30wOA.9MZqVJhb5mgwVf33fJmvzkGr65wcrdq",
   "passwordsalt": null,
-  "email": "yuyu@123.com",
+  "email": "bob@123.com",
   "avatarurl": null,
-  "role": "worker",
-  "workerid": 123
+  "role": "user",
+  "workerid": null
 }
 
 const wrongPostData = {
@@ -34,7 +35,6 @@ const wrongPostData = {
   "firstname": "test",
   "lastname": "123",
   "username": newUser.username,
-  "workerid": 123,
   "wrongkey": 123123123123
 }
 
@@ -44,7 +44,7 @@ const wrongWorkeridPostData = {
   "firstname": "test",
   "lastname": "123",
   "username": newUser.username,
-  "workerid": 0
+
 }
 
 const postData = {
@@ -52,8 +52,7 @@ const postData = {
   "password": newUser.password,
   "firstname": "test",
   "lastname": "123",
-  "username": newUser.username,
-  "workerid": 123
+  "username": newUser.username
 }
 
 const postExpected = {
@@ -63,8 +62,8 @@ const postExpected = {
   "about": null,
   "email": "test@123.com",
   "avatarurl": null,
-  "role": "worker",
-  "workerid": 123
+  "role": "user",
+  "workerid": null
 }
 
 const wrongPutData = {
@@ -93,104 +92,92 @@ const putExpected = {
   "about": "edit about",
   "email": "edit@123.com",
   "avatarurl": null,
-  "role": "worker",
-  "workerid": 123
+  "role": "user",
+  "workerid": null
 }
 
 jest.setTimeout(300000)
 
-describe('Get all worker information', () => {
+describe('Get all users', () => {
   it('Return all workers', async () => {
     const res = await request(app.callback())
-      .get('/api/v1/workers')
+      .get('/api/v1/users')
       .auth(admin.username, admin.password)
-      .send({})
     expect(res.statusCode).toEqual(200)
     expect(res.type).toEqual('application/json')
     expect(res.body).toContainEqual(getExpected)
   })
 })
 
-describe('Get all worker information with wrong login', () => {
+describe('Get all users with wrong login', () => {
   it('Return status 401', async () => {
     const res = await request(app.callback())
-      .get('/api/v1/workers')
+      .get('/api/v1/users')
       .auth(wrongLogin.username, wrongLogin.password)
-      .send({})
     expect(res.statusCode).toEqual(401)
   })
 })
 
-describe('Get all worker information with wrong role', () => {
+describe('Get all users with wrong role', () => {
   it('Return status 403', async () => {
     const res = await request(app.callback())
-      .get('/api/v1/workers')
+      .get('/api/v1/users')
       .auth(user.username, user.password)
     expect(res.statusCode).toEqual(403)
   })
 })
 
-describe('Get worker id 4 information', () => {
-  it('Return dog id 4 information', async () => {
+describe('Get user id 2', () => {
+  it('Return user id 4 information', async () => {
     const res = await request(app.callback())
-      .get('/api/v1/workers/4')
-      .auth(worker.username, worker.password)
+      .get('/api/v1/users/2')
+      .auth(user.username, user.password)
     expect(res.statusCode).toEqual(200)
     expect(res.type).toEqual('application/json')
     expect(res.body).toEqual(getExpected)
   })
 })
 
-describe('Get worker id 4 information with wrong login', () => {
+describe('Get user id 2 with wrong login', () => {
   it('Return status 401', async () => {
     const res = await request(app.callback())
-      .get('/api/v1/workers/4')
+      .get('/api/v1/users/2')
       .auth(wrongLogin.username, wrongLogin.password)
     expect(res.statusCode).toEqual(401)
   })
 })
 
-describe('Get worker id 4 information with no permission', () => {
+describe('Get user id 4 with no permission', () => {
   it('Return status 403', async () => {
     const res = await request(app.callback())
-      .get('/api/v1/workers/4')
-      .auth(user.username, user.password)
+      .get('/api/v1/users/2')
+      .auth(anotherUser.username, anotherUser.password)
     expect(res.statusCode).toEqual(403)
   })
 })
 
-describe('Get worker id unknown information', () => {
+describe('Get user id which is not existed', () => {
   it('Return status 404', async () => {
     const res = await request(app.callback())
-      .get('/api/v1/workers/0')
+      .get('/api/v1/users/0')
       .auth(admin.username, admin.password)
-      .send({})
     expect(res.statusCode).toEqual(404)
   })
 })
 
-describe('Post a new worker with wrong schema', () => {
+describe('Post a new user with wrong schema', () => {
   it('Return status 400', async () => {
     const res = await request(app.callback())
-      .post('/api/v1/workers/')
+      .post('/api/v1/users/')
       .send(wrongPostData)
     expect(res.statusCode).toEqual(400)
   })
 })
 
-describe('Post a new worker with wrong workerid', () => {
-  it('Return status 403', async () => {
+describe('Post a new user', () => {
+  it('Return new user information', async () => {
     const res = await request(app.callback())
-      .post('/api/v1/workers/')
-      .send(wrongWorkeridPostData)
-    expect(res.statusCode).toEqual(403)
-  })
-})
-
-describe('Post a new worker', () => {
-  it('Return new worker information', async () => {
-    const res = await request(app.callback())
-      .post('/api/v1/workers/')
+      .post('/api/v1/users/')
       .send(postData)
     expect(res.statusCode).toEqual(201)
     expect(res.type).toEqual('application/json')
@@ -199,50 +186,50 @@ describe('Post a new worker', () => {
   })
 })
 
-describe('Update a worker information with wrong schema', () => {
+describe('Update a user with wrong schema', () => {
   it('Return status 400', async () => {
     const res = await request(app.callback())
-      .put(`/api/v1/workers/${id}`)
+      .put(`/api/v1/users/${id}`)
       .auth(newUser.username, newUser.password)
       .send(wrongPutData)
     expect(res.statusCode).toEqual(400)
   })
 })
 
-describe('Update a worker with wrong login', () => {
+describe('Update a user with wrong login', () => {
   it('Return status 401', async () => {
     const res = await request(app.callback())
-      .put(`/api/v1/workers/${id}`)
+      .put(`/api/v1/users/${id}`)
       .auth(wrongLogin.username, wrongLogin.password)
       .send(putData)
     expect(res.statusCode).toEqual(401)
   })
 })
 
-describe('Update a worker with no permission', () => {
+describe('Update a user with no permission', () => {
   it('Return status 403', async () => {
     const res = await request(app.callback())
-      .put(`/api/v1/workers/${id}`)
+      .put(`/api/v1/users/${id}`)
       .auth(user.username, user.password)
       .send(putData)
     expect(res.statusCode).toEqual(403)
   })
 })
 
-describe('Update a worker which is not exist', () => {
+describe('Update a user which is not existed', () => {
   it('Return status 404', async () => {
     const res = await request(app.callback())
-      .put(`/api/v1/workers/0`)
+      .put(`/api/v1/user/0`)
       .auth(admin.username, admin.password)
       .send(putData)
     expect(res.statusCode).toEqual(404)
   })
 })
 
-describe('Update a worker Successfully', () => {
+describe('Update a user Successfully', () => {
   it('Return edited worker information', async () => {
     const res = await request(app.callback())
-      .put(`/api/v1/workers/${id}`)
+      .put(`/api/v1/users/${id}`)
       .auth(newUser.username, newUser.password)
       .send(putData)
     expect(res.statusCode).toEqual(200)
@@ -251,10 +238,10 @@ describe('Update a worker Successfully', () => {
   })
 })
 
-describe('Delete a worker with wrong login', () => {
+describe('Delete a user with wrong login', () => {
   it('Return status 401', async () => {
     const res = await request(app.callback())
-      .delete(`/api/v1/workers/${id}`)
+      .delete(`/api/v1/users/${id}`)
       .auth(wrongLogin.username, wrongLogin.password)
     expect(res.statusCode).toEqual(401)
   })
@@ -263,25 +250,25 @@ describe('Delete a worker with wrong login', () => {
 describe('Delete a worker with no permission', () => {
   it('Return status 403', async () => {
     const res = await request(app.callback())
-      .delete(`/api/v1/workers/${id}`)
+      .delete(`/api/v1/users/${id}`)
       .auth(editUser.username, editUser.password)
     expect(res.statusCode).toEqual(403)
   })
 })
 
-describe('Delete a worker which is not exist', () => {
+describe('Delete a user which is not exist', () => {
   it('Return status 404', async () => {
     const res = await request(app.callback())
-      .delete(`/api/v1/workers/0`)
+      .delete(`/api/v1/users/0`)
       .auth(admin.username, admin.password)
     expect(res.statusCode).toEqual(404)
   })
 })
 
-describe('Delete a worker successfully', () => {
+describe('Delete a user successfully', () => {
   it('Return status 204', async () => {
     const res = await request(app.callback())
-      .delete(`/api/v1/workers/${id}`)
+      .delete(`/api/v1/users/${id}`)
       .auth(admin.username, admin.password)
     expect(res.statusCode).toEqual(204)
   })

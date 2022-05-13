@@ -11,7 +11,7 @@ const router = Router({ prefix: '/api/v1/users' })
 const getUserAll = async (ctx) => {
   const permission = can.readUserAll(ctx.state.user)
   if (!permission.granted) {
-    ctx.status = 404
+    ctx.status = 403
     return
   }
   try {
@@ -93,7 +93,7 @@ const deleteUserById = async (ctx) => {
     return
   }
   try {
-    const user = await userModel.getUserByID(id)
+    const user = await userModel.getUserByID(id, 'user')
     if (!user.length) {
       ctx.status = 404
       return

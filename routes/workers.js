@@ -86,7 +86,7 @@ const updateWorker = async (ctx) => {
   }
 }
 
-const deleteWorkerById = async (ctx) => {
+const deleteWorker = async (ctx) => {
   const id = ctx.params.id
   const permission = can.deleteWorker(ctx.state.user, parseInt(id))
   if (!permission.granted) {
@@ -94,7 +94,7 @@ const deleteWorkerById = async (ctx) => {
     return
   }
   try {
-    const user = await userModel.getUserByID(id)
+    const user = await userModel.getUserByID(id, 'worker')
     if (!user.length) {
       ctx.status = 404
       return
@@ -112,6 +112,6 @@ router.get('/', auth, getWorkerAll)
 router.get('/:id([0-9]{1,})', auth, getWorkerById)
 router.post('/', bodyParser(), checkWorkerId, workerValidation, createWorker)
 router.put('/:id([0-9]{1,})', bodyParser(), auth, workerValidation, updateWorker)
-router.delete('/:id([0-9]{1,})', auth, deleteWorkerById)
+router.delete('/:id([0-9]{1,})', auth, deleteWorker)
 
 module.exports = router

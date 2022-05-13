@@ -28,8 +28,7 @@
         },
         "password":{
           "description":"Password of the user",
-          "type":"string",
-          "maxLength": 64
+          "type":"string"
         },
         "email":{
           "description":"E-mail of the user",

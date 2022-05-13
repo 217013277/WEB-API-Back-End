@@ -42,7 +42,7 @@ exports.getUserByUsername = async (username) => {
   */
 exports.createUser = async (body, role) => {
   body.role = role
-  body.password = await bcrypt.hash(body.password, saltRounds);
+  body.password = await bcrypt.hash(body.password, saltRounds)
   let keys = Object.keys(body)
   keys = keys.join(',')
   const values = Object.values(body)
@@ -61,9 +61,9 @@ exports.createUser = async (body, role) => {
   */
 exports.updateUser = async (id, body) => {
   const valueId = [id]
-  body.password = await bcrypt.hash(body.password, saltRounds);
-  let keys = Object.keys(body);
-  keys = keys.join(' = ?,');
+  body.password = await bcrypt.hash(body.password, saltRounds)
+  let keys = Object.keys(body)
+  keys = keys.join(' = ?,')
   const values = Object.values(body)
   const query = `UPDATE users SET ${keys} = ? WHERE id = ${valueId} RETURNING *`
   const data = await db.run_query(query, values)

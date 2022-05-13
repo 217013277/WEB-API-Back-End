@@ -1,7 +1,7 @@
 const request = require('supertest')
 const app = require('./app.test.js')
 
-//command 'jest dogs.test.js' in shell to run test
+// command 'jest dogs.test.js' in shell to run test
 
 let id = 0
 
@@ -176,7 +176,7 @@ describe('Update a dog information with no permission', () => {
 describe('Update a dog information with no permission', () => {
   it('Return status 403', async () => {
     const res = await request(app.callback())
-      .put(`/api/v1/dogs/0`)
+      .put('/api/v1/dogs/0')
       .auth('bob', 'qwerty123')
       .send(postData)
     expect(res.statusCode).toEqual(403)
@@ -222,7 +222,7 @@ describe('Delete a dog information', () => {
   })
 })
 
-describe('Delete a dog id with no permission', () => {
+describe('Delete a dog id with unknown id', () => {
   it('Return status 404', async () => {
     const res = await request(app.callback())
       .delete(`/api/v1/dogs/${id}`)
