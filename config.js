@@ -6,3 +6,5 @@ exports.myElephentDBConfig = {
   database: 'ndapwwhx',
   connection_limit: 100
 }
+
+exports.saltRounds = 10

@@ -117,7 +117,7 @@ const login = async (ctx) => {
   }
   ctx.status = 201
   ctx.body = result
-  console.log('Sent login information, finished login')
+  console.log('Login successfuly. Sent login information, finished login')
 }
 
 router.get('/', auth, getUserAll)

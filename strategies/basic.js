@@ -1,9 +1,13 @@
 const BasicStrategy = require('passport-http').BasicStrategy
+const bcrypt = require('bcrypt')
 const users = require('../models/users.js')
+const { saltRounds } = require('../config.js')
 
 const verifyPassword = (user, password) => {
-  return user.password === password
+  const match = bcrypt.compare(password, user.password)
+  return match
 }
+
 
 const checkUserAndPassword = async (username, password, done) => {
   console.log('Start authentication')
@@ -16,7 +20,7 @@ const checkUserAndPassword = async (username, password, done) => {
   }
   if (result.length) {
     const user = result[0]
-    if (verifyPassword(user, password)) {
+    if ( await verifyPassword(user, password)) {
       console.log(`Successfully authentication user ${username}`)
       return done(null, user)
     } else {
