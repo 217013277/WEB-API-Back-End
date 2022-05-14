@@ -47,5 +47,5 @@ module.exports = {
       maximum: 9999
     }
   },
-  required: ['username', 'email', 'password']
+  required: ['username', 'email', 'password', 'workerid']
 }

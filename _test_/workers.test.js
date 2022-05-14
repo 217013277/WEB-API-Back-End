@@ -74,6 +74,7 @@ const wrongPutData = {
   "lastname": "234",
   "username": editUser.username,
   "about": "edit about",
+  "workerid": 123,
   "wrongkey": 1384183481
 }
 
@@ -83,7 +84,8 @@ const putData = {
   "firstname": "edited",
   "lastname": "234",
   "username": editUser.username,
-  "about": "edit about"
+  "about": "edit about",
+  "workerid": 123
 }
 
 const putExpected = {

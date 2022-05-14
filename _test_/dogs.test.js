@@ -1,5 +1,6 @@
 const request = require('supertest')
 const app = require('./app.test.js')
+const { login } = require('../config.js')
 
 // command 'jest dogs.test.js' in shell to run test
 
@@ -104,7 +105,7 @@ describe('Post a new dog id with wrong syntax', () => {
   it('Return status 400', async () => {
     const res = await request(app.callback())
       .post('/api/v1/dogs/')
-      .auth('yuyu', '123123')
+      .auth(login.worker.username, login.worker.password)
       .send(wrongPostData)
     expect(res.statusCode).toEqual(400)
   })
@@ -114,7 +115,7 @@ describe('Post a new dog id with wrong password', () => {
   it('Return status 401', async () => {
     const res = await request(app.callback())
       .post('/api/v1/dogs/')
-      .auth('yuyu', 'wrong-password')
+      .auth(login.wrongLogin.username, login.wrongLogin.password)
       .send(postData)
     expect(res.statusCode).toEqual(401)
   })
@@ -124,7 +125,7 @@ describe('Post a new dog id with no permission', () => {
   it('Return status 403', async () => {
     const res = await request(app.callback())
       .post('/api/v1/dogs/')
-      .auth('bob', 'qwerty123')
+      .auth(login.user.username, login.user.password)
       .send(postData)
     expect(res.statusCode).toEqual(403)
   })
@@ -134,7 +135,7 @@ describe('Post a new dog id', () => {
   it('Return new dog information', async () => {
     const res = await request(app.callback())
       .post('/api/v1/dogs/')
-      .auth('yuyu', '123123')
+      .auth(login.worker.username, login.worker.password)
       .send(postData)
     expect(res.statusCode).toEqual(201)
     expect(res.type).toEqual('application/json')
@@ -143,51 +144,41 @@ describe('Post a new dog id', () => {
   })
 })
 
-describe('Update a new dog id with wrong syntax', () => {
+describe('Update a new dog with wrong syntax', () => {
   it('Return status 400', async () => {
     const res = await request(app.callback())
       .put(`/api/v1/dogs/${id}`)
-      .auth('yuyu', '123123')
+      .auth(login.worker.username, login.worker.password)
       .send(wrongPutData)
     expect(res.statusCode).toEqual(400)
   })
 })
 
-describe('Update a dog information with wrong password', () => {
+describe('Update a dog with wrong password', () => {
   it('Return status 401', async () => {
     const res = await request(app.callback())
       .put(`/api/v1/dogs/${id}`)
-      .auth('yuyu', 'wrong-password')
+      .auth(login.wrongLogin.username, login.wrongLogin.password)
       .send(postData)
     expect(res.statusCode).toEqual(401)
   })
 })
 
-describe('Update a dog information with no permission', () => {
+describe('Update a dog with no permission', () => {
   it('Return status 403', async () => {
     const res = await request(app.callback())
       .put(`/api/v1/dogs/${id}`)
-      .auth('bob', 'qwerty123')
+      .auth(login.user.username, login.user.password)
       .send(postData)
     expect(res.statusCode).toEqual(403)
   })
 })
 
-describe('Update a dog information with no permission', () => {
-  it('Return status 403', async () => {
-    const res = await request(app.callback())
-      .put('/api/v1/dogs/0')
-      .auth('bob', 'qwerty123')
-      .send(postData)
-    expect(res.statusCode).toEqual(403)
-  })
-})
-
-describe('Update a dog information', () => {
+describe('Update a dog', () => {
   it('Return edited dog information', async () => {
     const res = await request(app.callback())
       .put(`/api/v1/dogs/${id}`)
-      .auth('yuyu', '123123')
+      .auth(login.worker.username, login.worker.password)
       .send(putData)
     expect(res.statusCode).toEqual(200)
     expect(res.type).toEqual('application/json')
@@ -195,11 +186,11 @@ describe('Update a dog information', () => {
   })
 })
 
-describe('Delete a dog id with wrong password', () => {
+describe('Delete a dog with wrong password', () => {
   it('Return status 401', async () => {
     const res = await request(app.callback())
       .delete(`/api/v1/dogs/${id}`)
-      .auth('yuyu', 'wrong-password')
+      .auth(login.wrongLogin.username, login.wrongLogin.password)
     expect(res.statusCode).toEqual(401)
   })
 })
@@ -208,25 +199,25 @@ describe('Delete a dog id with no permission', () => {
   it('Return status 403', async () => {
     const res = await request(app.callback())
       .delete(`/api/v1/dogs/${id}`)
-      .auth('bob', 'qwerty123')
+      .auth(login.user.username, login.user.password)
     expect(res.statusCode).toEqual(403)
   })
 })
 
-describe('Delete a dog information', () => {
+describe('Delete a dog ', () => {
   it('Return delete successfully status code', async () => {
     const res = await request(app.callback())
       .delete(`/api/v1/dogs/${id}`)
-      .auth('yuyu', '123123')
+      .auth(login.worker.username, login.worker.password)
     expect(res.statusCode).toEqual(204)
   })
 })
 
-describe('Delete a dog id with unknown id', () => {
+describe('Delete a dog which is not existed', () => {
   it('Return status 404', async () => {
     const res = await request(app.callback())
       .delete(`/api/v1/dogs/${id}`)
-      .auth('yuyu', '123123')
+      .auth(login.worker.username, login.worker.password)
     expect(res.statusCode).toEqual(404)
   })
 })

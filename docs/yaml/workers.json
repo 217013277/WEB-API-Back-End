@@ -51,6 +51,7 @@
   "required":[
     "username",
     "email",
-    "password"
+    "password",
+    "workerid"
   ]
 }
