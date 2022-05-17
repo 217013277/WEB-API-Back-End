@@ -71,7 +71,7 @@ const updateUser = async (ctx) => {
   try {
     const user = await userModel.getUserByID(id, 'user')
     if (!user.length) {
-      ctx.status = 403
+      ctx.status = 404
       return
     }
     const body = ctx.request.body
